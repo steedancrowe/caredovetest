@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'caredove-integrations', '0.1.2' );
+define( 'caredove', '0.1.2' );
 
 /**
  * The code that runs during plugin activation.
@@ -73,7 +73,7 @@ require 'plugin-update-checker/plugin-update-checker.php';
 $CaredoveUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 	'https://github.com/Caredove/CD-Integrations-Wordpress/',
 	__FILE__,
-	'caredove-integrations'
+	'caredove'
 );
 
 //Optional: If you're using a private repository, specify the access token like this:
