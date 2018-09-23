@@ -38,7 +38,7 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 
 == Changelog ==
 
-= 0.1.1 =
+= 0.1.2 =
 * Testing updating by changing version number
 
 = 0.1.0 =
