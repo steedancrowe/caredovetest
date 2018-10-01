@@ -185,7 +185,19 @@ class Caredove_Admin {
 	              'type'=> 'textbox',
 	              'name'=> 'text',
 	              'label'=> 'Button Text'
-	            )]
+	            ),
+			    		array( 
+			    			'type'   => 'listbox',
+                    'name'   => 'listbox',
+                    'label'  => 'listbox',
+                    'values' => [
+                        array( 'text'=> 'None', 'value'=> 'none' ),
+                        array( 'text'=> 'Test2', 'value'=> 'test2' ),
+                        array( 'text'=> 'Test3', 'value'=> 'test3' )
+                    ],
+                    'value' => 'none'
+              )
+			    	]
 					),
 					'2' => array (
 						'shortcode' => 'caredove_listings',
@@ -203,9 +215,16 @@ class Caredove_Admin {
 
 				);
 
-			wp_localize_script( 'jquery', 'string', $string);
+			wp_localize_script( 'jquery', 'caredove_tinymce_options', $string);
 	}
 
+
+	//https://www.sitepoint.com/adding-a-media-button-to-the-content-editor/
+	public function media_button_insert_search_page() {
+		echo '<a href="#" id="insert-caredove-search-page" class="button caredove-admin-button">+Caredove Search Page</a>';
+		echo '<a href="#" id="insert-caredove-button" class="button caredove-admin-button">+Caredove Button</a>';
+		echo '<a href="#" id="insert-caredove-listings" class="button caredove-admin-button">+Caredove Listings</a>';
+	}
 
 	/**
 	 * Add an options page under the Settings submenu
@@ -294,12 +313,24 @@ class Caredove_Admin {
 		echo '<input type="text" name="' . $this->option_name . '_api_token' . '" id="' . $this->option_name . '_api_token' . '" value="' . $api_token . '"> ' . __( 'get your API token from caredove.com', 'caredove' );
 	}
 
+	public function connect_to_api() {
+    	$api_token = get_option('caredove_api_token',array());
+			$url = 'https://api.github.com/user/orgs';
+			$args = array(
+	    'headers' => array(
+	    		//a2d42a477afde9fb921ca9e124877129086ded59
+	        'Authorization' => 'token ' . $api_token
+			    )
+			);
+			$response = wp_remote_get( $url, $args );
+			$http_code = wp_remote_retrieve_response_code( $response );
+			if($http_code == '200'){
+				$caredove_api_data = wp_remote_retrieve_body( $response );	
+			} else {
+				$caredove_api_data = "something went wrong: " . $http_code;
+			}
 
-	//https://www.sitepoint.com/adding-a-media-button-to-the-content-editor/
-	public function media_button_insert_search_page() {
-		echo '<a href="#" id="insert-caredove-search-page" class="button">+Caredove Search Page</a>';
-		echo '<a href="#" id="insert-caredove-button" class="button">+Caredove Button</a>';
-		echo '<a href="#" id="insert-caredove-listings" class="button">+Caredove Listings</a>';
+			print_r($caredove_api_data);
 	}
 
 }

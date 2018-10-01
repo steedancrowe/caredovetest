@@ -32,9 +32,9 @@
             // Save the url in the object so that it's accessible elsewhere
             t.url = url;
 
-            // Pull in the shortcodes object that we stored in the internationalization object earlier
+            // Pull in the shortcodes object that we stored in the class-caredove-admin.php initialization object earlier
             // t._shortcodes = tinymce.i18n['visualShortcode.shortcodes'];
-            t._shortcodes = string;
+            t._shortcodes = caredove_tinymce_options;
             // Alternately, you can hardcode the shortcodes here:
                 // t._shortcodes = [];
                 // t._shortcodes[0] = {shortcode:"caredove", image:"https://via.placeholder.com/350x150", command:"caredoveiframe"};
@@ -64,20 +64,28 @@
             }
 
             t._buildRegex( names );  
-            //This is the editor popup, values are defined in class-caredove-admin.php
-
+            //This is the editor popup, values are defined in class-caredove-admin.php     
             for (var key in t.shortcodes){
-                  
-              ed.addCommand('editImage', function( img, shortcode ) {
 
-                    console.log('popup img value: ' + shortcode);
+              ed.addCommand('editImage', function( img, shortcode ) {
                     var attributes = {};
-                    console.log('this is the img tag: ' + img);
-                    if(img.length != ""){
+
+                    // console.log('shortcode Value: ' + shortcode);                
+                    console.log('this is the img tag: ' + img.length);
+                    if (img.length != 0) {
+                        t.shortcodes[shortcode].buttons['1'].text = "Update";
+                    } else {
+                        t.shortcodes[shortcode].buttons['1'].text = "Insert";
+                    }
+                    // override the object values with content from our HTML element when double clicked
+                    // This isn't the most efficient way of pulling in the HTMl element content
+                    // I will find a faster way
+                    if(img.match(/[\w-]+=".+?"/g) != null){
                       img.match(/[\w-]+=".+?"/g).forEach(function(attribute) {
                         attribute = attribute.match(/([\w-]+)="(.+?)"/);
                         attributes[attribute[1]] = attribute[2];
                       });
+
                       for(i=0; i < t.shortcodes[shortcode].popupbody.length; i++) {
                         if(attributes.hasOwnProperty(t.shortcodes[shortcode].popupbody[i].name)){
                           if(t.shortcodes[shortcode].popupbody[i].hasOwnProperty('checked')){
@@ -87,9 +95,7 @@
                         }
                       }
                     };                                       
-                    
-                    console.log(img);
-                    
+                                        
                     // Open window
                     ed.windowManager.open({
                       title: t.shortcodes[shortcode].title,
@@ -101,11 +107,10 @@
                         var popupValues = e.data;
                         var placeholder = "";
                         for(var key in popupValues){
-                          console.log(key);
                           placeholder = placeholder + ' ' + key + '="' + popupValues[key] + '"';
                         }
                           
-                          // placeholder = placeholder + index +'="'+item'"';
+                        // placeholder = placeholder + index +'="'+item'"';
                         ed.insertContent( '['+ t.shortcodes[shortcode].shortcode + ' ' + placeholder + ']' );
                       }
                     
@@ -123,8 +128,10 @@
                 if ( e.target.nodeName == 'IMG' && e.target.className.indexOf('jpbVisualShortcode') > -1 ) {
                   var image = e.target.attributes['title'].value;
                   var shortcode = e.target.attributes['data-shortcode'].value;
-                  // console.log('image values: ' + image.substr(image.indexOf(' ')+1));
                   ed.execCommand('editImage', image, shortcode);
+                  // ed.windowManager.setParams({params:e.target.attributes});
+                  // console.log(ed.windowManager.getParams());
+                  // console.log(ed.dom);
                 }
             });
               

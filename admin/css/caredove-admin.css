@@ -2,3 +2,13 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+ .button.caredove-admin-button {
+ 	background: #007AD0;
+ 	border-color:#fff;
+ 	color:#fff;
+ }
+ .button.caredove-admin-button:hover {
+ 	background: #009AFF;
+ 	color:#fff;
+ }

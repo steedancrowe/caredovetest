@@ -22,6 +22,8 @@
             settings_fields( $this->plugin_name );
             do_settings_sections( $this->plugin_name );
             submit_button();
-        ?>
+    	  ?>
     </form>
+
+    <?php return Caredove_Admin::connect_to_api(); ?>
 </div>
