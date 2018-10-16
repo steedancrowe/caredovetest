@@ -16,7 +16,7 @@
  * Plugin Name:       Caredove
  * Plugin URI:        https://caredove.com/plugins/caredove
  * Description:       This plugin provides integration with caredove.com for scheduling buttons, services listings and search.Here is a short description of the plugin. 
- * Version:           0.1.2
+ * Version:           0.1.4
  * Author:            Caredove
  * Author URI:        https://caredove.com
  * License:           GPL-2.0+
@@ -69,9 +69,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-caredove.php';
  * during WordPress' update check, or when they manually click on 'check for updates' from the plugins page.
  */
 
-require 'plugin-update-checker/plugin-update-checker.php';
+require plugin_dir_path( __FILE__ ) . 'plugin-update-checker/plugin-update-checker.php';
 $CaredoveUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Caredove/CD-Integrations-Wordpress/plugin.json',
+	'https://github.com/Caredove/CD-Integrations-Wordpress',
 	__FILE__,
 	'caredove'
 );

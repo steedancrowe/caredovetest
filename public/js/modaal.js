@@ -891,7 +891,7 @@
 				content = 
 									'<div class="modaal-content-header"><h3 id="modaal-title">' + self.options.iframe_title + '</h3></div>' +
 									'<div class="modaal-content-container' + ( self.options.loading_class != '' ? ' ' + self.options.loading_class : '' ) + '">' + 
-										'<iframe src="' + url + '" class="modaal-iframe-elem" frameborder="0" allowfullscreen></iframe>' + 
+										'<iframe src="' + url + self.options.url_param + '" class="modaal-iframe-elem" frameborder="0" allowfullscreen></iframe>' + 
 									'</div>' +
 									'<div class="modaal-content-footer"><p>' + self.options.iframe_footer + '</p></div>';
 
@@ -1154,6 +1154,7 @@
 		//iFrame Modal
 		iframe_title: 'Popup Modal',
 		iframe_footer: 'Powered by Modaal',
+		url_param: '',
 
 		//Instagram
 		instagram_id: null
