@@ -51,7 +51,7 @@ class Caredove_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		add_shortcode('caredove_search', array($this, 'caredove_search'));
+		add_shortcode('caredove_search', array($this, 'caredove_search'));	
 	}
 
 	/**
@@ -74,6 +74,7 @@ class Caredove_Public {
 		 */
 
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/caredove-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name . '-modaal', plugin_dir_url( __FILE__ ) . 'css/modaal.css', array(), $this->version, 'all' );
 
 	}
 
@@ -97,7 +98,18 @@ class Caredove_Public {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/caredove-public.js', array( 'jquery' ), $this->version, false );
+		wp_enqueue_script( $this->plugin_name . '-modaal', plugin_dir_url( __FILE__ ) . 'js/modaal.js', array( 'jquery' ), $this->version, false );
 
+	}
+	public function caredove_modal() {
+		?>
+					<div class="caredove-modal">
+				    <div class="caredove-modal-content">
+				        <span class="caredove-modal-close">×</span>
+				        	<iframe id="caredove-iframe" scrolling="yes" src=""></iframe>
+				    </div>
+					</div>
+		<?php	
 	}
 
 	public function caredove_search($atts) {
@@ -105,7 +117,9 @@ class Caredove_Public {
 						'page_url' => 'https://macrumors.com',
 						'modal' => 'false',
 						'button_text' => 'Open Search',
-						'button_color' => ''
+						'button_color' => '',
+						'button_style' => 'default',
+						'modal_title' => 'Search for Services'
 				), $atts );
 
 			 $iframe = '<iframe id="caredove-iframe" scrolling="yes" src="'.$a['page_url'].'?embed=1"></iframe>';
@@ -113,13 +127,8 @@ class Caredove_Public {
 			 if($a['modal'] == 'true'){
 						ob_start();
 						?> 
-							<button type="button" class="caredove-iframe-button" style="background-color:<?php echo $a['button_color']?>;"><?php echo $a['button_text']; ?></button>
-							<div class="caredove-modal">
-							    <div class="caredove-modal-content">
-							        <span class="caredove-modal-close">×</span>
-							        <?php echo $iframe; ?>
-							    </div>
-							</div>							
+							<button type="button" class="caredove-iframe-button caredove-button-<?php echo $a['button_style'] ?>" data-modal-title="<?php echo $a["modal_title"]?>" href="<?php echo $a["page_url"]?>" style="background-color:<?php echo $a['button_color']?>;"><?php echo $a['button_text']; ?></button>
+						
 						<?php
 						return ob_get_clean();
 			 } else {

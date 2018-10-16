@@ -163,6 +163,14 @@ class Caredove_Admin {
               'checked' => false
             ),
             array (
+              'type'   => 'textbox',
+              'name'   => 'modal_title',
+              'label'  => 'Modal Title',
+              'value'  => 'Search for Services',
+              'tooltip' => 'The title for the popup modal, default: Serach for Services',
+              'classes' => 'requires_modal'
+            ),
+            array (
                 'type'   => 'colorbox',
                 'name'   => 'button_color',
                 'label'  => 'Button Color',
@@ -172,7 +180,18 @@ class Caredove_Admin {
                     array ( 'text'=> 'Black', 'value'=> '#000' ),                 
                 ],
                 'onaction' => 'createColorPickAction()'
-            )]
+            ),
+         	 	array( 
+			    			'type'   => 'listbox',
+                    'name'   => 'button_style',
+                    'label'  => 'Button Style',
+                    'values' => [
+                        array( 'text'=> 'Default', 'value'=> 'default' ),
+                        array( 'text'=> 'Style 1', 'value'=> 'style-1' ),
+                        array( 'text'=> 'Style 2', 'value'=> 'style-2' )
+                    ],
+                    'value' => 'default'
+              )]
 					),
 					'1' => array (
 						'shortcode' => 'caredove_button',
@@ -296,8 +315,6 @@ class Caredove_Admin {
 	public function caredove_general_options() {
 		echo '<p>' . __( 'Please change the settings accordingly.', 'caredove' ) . '</p>';
 	}
-
-
 	/**
 	 * Render the option page options
 	 *

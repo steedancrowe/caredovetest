@@ -27,28 +27,45 @@
 	 * single DOM-ready or window-load handler for a particular page.
 	 * Although scripts in the WordPress core, Plugins and Themes may be
 	 * practising this, we should strive to set a better example in our own work.
-	 */
+	 */	  
 
 	 	$(document).ready(function(){
-	 		console.log('modal trigger is loading');
 
-		  var modal = document.querySelector(".caredove-modal");
-			var trigger = document.querySelector(".caredove-iframe-button");
-			var closeButton = document.querySelector(".caredove-modal-close");
+	 		//  var modal = document.querySelector(".caredove-modal");
+			// var trigger = document.querySelector(".caredove-iframe-button");
+			// var closeButton = document.querySelector(".caredove-modal-close");
 
-			function toggleModal() {
-			    modal.classList.toggle("caredove-modal-show");
-			}
+			// //Load the URL of the first button once the page loads
+			// var lazyURL = $(".caredove-iframe-button").first().attr("data-url");
+			// $('#caredove-iframe').attr('src', lazyURL + '?embed=1');
 
-			function windowOnClick(event) {
-			    if (event.target === modal) {
-			        toggleModal();
-			    }
-			}
+			// function toggleModal() {
+			//     modal.classList.toggle("caredove-modal-show");
+			// }
 
-			trigger.addEventListener("click", toggleModal);
-			closeButton.addEventListener("click", toggleModal);
-			window.addEventListener("click", windowOnClick);
+			// function windowOnClick(event) {
+			//     if (event.target === modal) {
+			//         toggleModal();
+			//     }
+			// }
+
+			// $(".caredove-iframe-button").on("click", function() {		
+			// 	// var url = $(this).attr("data-url");
+			// 	var modal_title = $(this).attr("data-modal-title");
+			// // 	$('#caredove-iframe').attr('src', url + '?embed=1');
+			// // 	toggleModal();
+			// });
+			// closeButton.addEventListener("click", toggleModal);
+			// window.addEventListener("click", windowOnClick);
+
+	 		$(".caredove-iframe-button").modaal({
+				loading_content: 'Loading content, please wait.',
+    		type: 'iframe',
+    		iframe_title: 'Search for Services',
+    		iframe_footer: 'Powered by <a href="https://caredove.com">Caredove.com</a>'
+			});
+
+	
 		});
 
 })( jQuery );

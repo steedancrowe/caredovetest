@@ -3,59 +3,23 @@
  * included in this file.
  */
 
- #caredove-iframe {
- 	width:100%;
- 	min-height:300px;
- 	height:100%;
- 	border:0;
- 	overflow-x:hidden; overflow-y:auto;
+ button.caredove-button-style-1, input[type="button"].caredove-button-style-1 {
+    padding:10px;
+    border-radius:10px;
+    box-shadow: 1px 1px 1px #000;
  }
 
- .caredove-iframe-button {
- 	/*color:#fff;*/
+ button.caredove-button-style-2, input[type="button"].caredove-button-style-2 {
+    padding:10px;
+    border:2px solid black;
+    border-radius:10px;
  }
-  /** Modal styling based off of tutorial from: https://sabe.io/tutorials/how-to-create-modal-popup-box **/
- .caredove-modal {
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    z-index:999999;
-    /*transform: scale(1.1);*/
-    transition: visibility 0s linear 0.25s, opacity 0.25s 0s, transform 0.25s;
-}
-.caredove-modal-content {
-    position: absolute;
-    top: 15%;
-    left: 12%;
-    width: 95%;
+
+
+ #caredove-iframe, .modaal-iframe-elem {
+    width:100%;
+    min-height:300px;
     height:85%;
-    transform: translate(-10%, -10%);
-    background-color: white;
-    box-sizing: border-box;
-    padding: 1rem 1.5rem;
-    border-radius: 0.5rem;
-}
-.caredove-modal-close {
-    right:1rem;
-    position:absolute;
-    width: 1.5rem;
-    line-height: 1.5rem;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 0.25rem;
-    background-color: lightgray;
-}
-.caredove-modal-close:hover {
-    background-color: darkgray;
-}
-.caredove-modal-show {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1.0);
-    transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
-}
+    border:0;
+    overflow-x:hidden; overflow-y:auto;
+ }

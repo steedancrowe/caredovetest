@@ -1,0 +1,30 @@
+{
+	"name": "Caredove widgets",
+	"version": "0.1.3",
+	"download_url": "http://example.com/updates/example-plugin.zip",
+
+	"homepage": "https://caredove.com/",
+	"requires": "4.5",
+	"tested": "4.9",
+	"last_updated": "2018-10-15 23:10:00",
+	"upgrade_notice": "Additional Features",
+
+	"author": "Caredove",
+	"author_homepage": "https://caredove.com/",
+
+	"sections": {
+		"description": "A Wordpress plugin that allows populating Wordpress with content from Caredove, such as referral buttons, search pages, and service listings.",
+		"installation": "(Recommended) Installation instructions.",
+		"changelog": "(Recommended) Changelog. <p>This section will be displayed by default when the user clicks 'View version x.y.z details'.</p>",
+	},
+	
+	"icons" : {
+		"1x" : "http://w-shadow.com/files/external-update-example/assets/icon-128x128.png",
+		"2x" : "http://w-shadow.com/files/external-update-example/assets/icon-256x256.png"
+    },
+
+	"banners": {
+		"low": "http://w-shadow.com/files/external-update-example/assets/banner-772x250.png",
+		"high": "http://w-shadow.com/files/external-update-example/assets/banner-1544x500.png"
+	},
+}

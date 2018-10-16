@@ -71,7 +71,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-caredove.php';
 
 require 'plugin-update-checker/plugin-update-checker.php';
 $CaredoveUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Caredove/CD-Integrations-Wordpress/',
+	'https://github.com/Caredove/CD-Integrations-Wordpress/plugin.json',
 	__FILE__,
 	'caredove'
 );
