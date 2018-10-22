@@ -3,18 +3,54 @@
  * included in this file.
  */
 
- button.caredove-button-style-1, input[type="button"].caredove-button-style-1 {
-    padding:10px;
-    border-radius:10px;
-    box-shadow: 1px 1px 1px #000;
- }
+button.caredove-iframe-button, input[type="button"].caredove-iframe-button {
+    font-size:1.2em;
+}
 
- button.caredove-button-style-2, input[type="button"].caredove-button-style-2 {
+button.caredove-iframe-button:hover, input[type="button"].caredove-iframe-button:hover {
+    cursor:pointer!important;
+}
+button.caredove-button-style-1, input[type="button"].caredove-button-style-1 {
+    padding:10px 20px;
+    border-radius:5px;
+    border:1px solid #ccc;
+    box-shadow: 1px 1px 1px #000;
+}
+button.caredove-button-style-2, input[type="button"].caredove-button-style-2 {
     padding:10px;
     border:2px solid black;
     border-radius:10px;
- }
+}
+button.caredove-button-style-2:hover, input[type="button"].caredove-button-style-2:hover {
+    background:#ccc;
+}
 
+
+.caredove-listings {
+    margin:10px 0px;
+    overflow:hidden;
+}
+
+.caredove-listing-item {
+    padding:15px 10px 10px 10px;
+    margin: 0px;
+    float:left;
+}
+.caredove-listings-full-width .caredove-listing-item {
+    width:100%;
+}
+.caredove-listings-2-column .caredove-listing-item {
+    width:50%;
+}
+.caredove-listings-3-column .caredove-listing-item {
+    width:33.33%;
+}
+
+@media (max-width:600px){
+    .caredove-listings .caredove-listing-item {
+        width:100%;
+    }
+}
 
  #caredove-iframe, .modaal-iframe-elem {
     width:100%;

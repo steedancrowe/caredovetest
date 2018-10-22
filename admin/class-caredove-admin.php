@@ -133,7 +133,47 @@ class Caredove_Admin {
 			//Define the standard buttons (these can be overridden for a specific shortcode if desired)
 			$popup->buttons = [array ('text' => 'cancel','onclick' => 'close'), array ('text' => 'Insert','onclick' => 'submit')];
 
-		  //string is the array of shortocdes
+		  $caredove_api_data = $this->connect_to_api();
+		  $api_object = json_decode($caredove_api_data, true);
+			
+			foreach ($api_object as $result){
+				if (isset($result['eReferral']['formUrl'])){
+					$caredove_booking_buttons[] = array('text' => $result['name'], 'value' => $result['eReferral']['formUrl']);
+				}
+			}
+
+		  $popup->button_options[] = array(
+              'type'=> 'textbox',
+              'name'=> 'button_text',
+              'label'=> 'Button Text',
+              'tooltip'=> 'This will be used for the button text'
+            );
+		  $popup->button_options[] = array (
+              'type'   => 'colorbox',
+              'name'   => 'button_color',
+              'label'  => 'Button Color',
+              'text'   => '#fff',
+              'values' => [
+                  array ( 'text'=> 'White', 'value'=> '#fff' ),
+                  array ( 'text'=> 'Black', 'value'=> '#000' ),                 
+              ],
+              'onaction' => 'createColorPickAction()'
+			      );
+			 $popup->button_options[] = array( 
+		    			'type'   => 'listbox',
+              'name'   => 'button_style',
+              'label'  => 'Button Style',
+              'values' => [
+                  array( 'text'=> 'Default', 'value'=> 'default' ),
+                  array( 'text'=> 'Style 1', 'value'=> 'style-1' ),
+                  array( 'text'=> 'Style 2', 'value'=> 'style-2' )
+              ],
+              'value' => 'default'
+			      );
+
+		
+		  
+		  //string is the array of shortocde options for the TinyMCE editor popup
 			$string = array(
 					//first shortcode
 					'0' => array (
@@ -143,12 +183,6 @@ class Caredove_Admin {
 		    	'command' => 'editImage',
 		    	'buttons' => $popup->buttons,
 		    	'popupbody' => [
-		    		array(
-              'type'=> 'textbox',
-              'name'=> 'button_text',
-              'label'=> 'Button Text',
-              'tooltip'=> 'This text will be used inside the button for the popup'
-            ),
             array(
               'type'=> 'textbox',
               'name'=> 'page_url',
@@ -169,67 +203,51 @@ class Caredove_Admin {
               'value'  => 'Search for Services',
               'tooltip' => 'The title for the popup modal, default: Serach for Services',
               'classes' => 'requires_modal'
-            ),
-            array (
-                'type'   => 'colorbox',
-                'name'   => 'button_color',
-                'label'  => 'Button Color',
-                'text'   => '#fff',
-                'values' => [
-                    array ( 'text'=> 'White', 'value'=> '#fff' ),
-                    array ( 'text'=> 'Black', 'value'=> '#000' ),                 
-                ],
-                'onaction' => 'createColorPickAction()'
-            ),
-         	 	array( 
-			    			'type'   => 'listbox',
-                    'name'   => 'button_style',
-                    'label'  => 'Button Style',
-                    'values' => [
-                        array( 'text'=> 'Default', 'value'=> 'default' ),
-                        array( 'text'=> 'Style 1', 'value'=> 'style-1' ),
-                        array( 'text'=> 'Style 2', 'value'=> 'style-2' )
-                    ],
-                    'value' => 'default'
-              )]
+            ), $popup->button_options[0],$popup->button_options[1],$popup->button_options[2]
+          	]
 					),
 					'1' => array (
 						'shortcode' => 'caredove_button',
-						'title' => '',
+						'title' => 'Create a Booking Form Button',
 						'image' => 'https://via.placeholder.com/150x150',
 		    		'command' => 'editImage',
 		    		'buttons' => $popup->buttons,
-		    		'popupbody' => [
-			    		array(
-	              'type'=> 'textbox',
-	              'name'=> 'text',
-	              'label'=> 'Button Text'
-	            ),
+		    		'popupbody' => [		    			
 			    		array( 
-			    			'type'   => 'listbox',
-                    'name'   => 'listbox',
-                    'label'  => 'listbox',
-                    'values' => [
-                        array( 'text'=> 'None', 'value'=> 'none' ),
-                        array( 'text'=> 'Test2', 'value'=> 'test2' ),
-                        array( 'text'=> 'Test3', 'value'=> 'test3' )
-                    ],
+			    					'type'   => 'listbox',
+                    'name'   => 'page_url',
+                    'label'  => 'Booking Form',
+                    'values' => $caredove_booking_buttons,
                     'value' => 'none'
-              )
+              ),
+	            array (
+	              'type'   => 'textbox',
+	              'name'   => 'modal_title',
+	              'label'  => 'Modal Title',
+	              'value'  => 'Book an Appointment',
+	              'tooltip' => 'The title for the popup modal, default: Book an Appointment',
+	            ), $popup->button_options[0],$popup->button_options[1],$popup->button_options[2]
 			    	]
 					),
-					'2' => array (
+					'2' => array ( //do we need Category options? 
 						'shortcode' => 'caredove_listings',
-						'title' => '',
+						'title' => 'Display your caredove listings',
 						'image' => 'https://via.placeholder.com/50x150',
 		    		'command' => 'editImage',
 		    		'buttons' => $popup->buttons,
 		    		'popupbody' => [
 			    		array(
-	              'type'=> 'textbox',
-	              'name'=> 'text',
-	              'label'=> 'List Style'
-	            )]
+	              'type'   => 'listbox',
+	              'name'   => 'list_style',
+	              'label'  => 'List Style',
+	              'values' => [
+	                  array( 'text'=> 'Full Width', 'value'=> 'full_width' ),
+	                  array( 'text'=> '2 Column', 'value'=> '2-column' ),
+	                  array( 'text'=> '3 Column', 'value'=> '3-column' )
+	              ],
+	              'value' => 'full_width'
+	            ), $popup->button_options[0],$popup->button_options[1],$popup->button_options[2]
+			    	]
 					) 
 
 				);
@@ -238,7 +256,7 @@ class Caredove_Admin {
 	}
 
 
-	//https://www.sitepoint.com/adding-a-media-button-to-the-content-editor/
+	//Reference: https://www.sitepoint.com/adding-a-media-button-to-the-content-editor/
 	public function media_button_insert_search_page() {
 		echo '<a href="#" id="insert-caredove-search-page" class="button caredove-admin-button">+Caredove Search Page</a>';
 		echo '<a href="#" id="insert-caredove-button" class="button caredove-admin-button">+Caredove Button</a>';
@@ -295,16 +313,26 @@ class Caredove_Admin {
 		);
 
 		add_settings_field(
-			$this->option_name . '_api_token',
-			__( 'API Token', 'caredove' ),
-			array( $this, $this->option_name . '_api_token_field' ),
+			$this->option_name . '_api_password',
+			__( 'API password', 'caredove' ),
+			array( $this, $this->option_name . '_api_password_field' ),
 			$this->plugin_name,
 			$this->option_name . '_general',
-			array( 'label_for' => $this->option_name . '_api_token' )
+			array( 'label_for' => $this->option_name . '_api_password' )
+		);
+
+		add_settings_field(
+			$this->option_name . '_api_org_id',
+			__( 'Your Organization ID', 'caredove' ),
+			array( $this, $this->option_name . '_api_org_id_field' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_api_org_id' )
 		);
 
 		register_setting( $this->plugin_name, $this->option_name . '_api_username', 'text' );
-		register_setting( $this->plugin_name, $this->option_name . '_api_token', 'text' );
+		register_setting( $this->plugin_name, $this->option_name . '_api_password', 'text' );
+		register_setting( $this->plugin_name, $this->option_name . '_api_org_id', 'text' );
 	}
 
 	/**
@@ -323,20 +351,25 @@ class Caredove_Admin {
 	public function caredove_api_username_field() {
 		$api_username = get_option( $this->option_name . '_api_username' );
 		echo '<input type="text" name="' . $this->option_name . '_api_username' . '" id="' . $this->option_name . '_api_username' . '" value="' . $api_username . '"> ' . __( 'get your API username from caredove.com', 'caredove' );
+		}
+	public function caredove_api_password_field() {
+		$api_password = get_option( $this->option_name . '_api_password' );
+		echo '<input type="text" name="' . $this->option_name . '_api_password' . '" id="' . $this->option_name . '_api_password' . '" value="' . $api_password . '"> ' . __( 'get your API password from caredove.com', 'caredove' );
 	}
-
-	public function caredove_api_token_field() {
-		$api_token = get_option( $this->option_name . '_api_token' );
-		echo '<input type="text" name="' . $this->option_name . '_api_token' . '" id="' . $this->option_name . '_api_token' . '" value="' . $api_token . '"> ' . __( 'get your API token from caredove.com', 'caredove' );
+	public function caredove_api_org_id_field() {
+		$api_org_id = get_option( $this->option_name . '_api_org_id' );
+		echo '<input type="text" name="' . $this->option_name . '_api_org_id' . '" id="' . $this->option_name . '_api_org_id' . '" value="' . $api_org_id . '"> ' . __( 'get your organization ID from caredove.com', 'caredove' );
 	}
 
 	public function connect_to_api() {
-    	$api_token = get_option('caredove_api_token',array());
-			$url = 'https://api.github.com/user/orgs';
+    	$api_username = get_option('caredove_api_username',array());
+    	$api_password = get_option('caredove_api_password',array());
+    	$api_org_id = get_option('caredove_api_org_id',array());
+    	$api_auth = $api_username . ':' . $api_password;
+			$url = 'https://sandbox.caredove.com/api/native/healthcareservice/?organization_id=' . $api_org_id;
 			$args = array(
 	    'headers' => array(
-	    		//a2d42a477afde9fb921ca9e124877129086ded59
-	        'Authorization' => 'token ' . $api_token
+	        'Authorization' => 'Basic ' . base64_encode($api_auth)
 			    )
 			);
 			$response = wp_remote_get( $url, $args );
@@ -347,7 +380,7 @@ class Caredove_Admin {
 				$caredove_api_data = "something went wrong: " . $http_code;
 			}
 
-			print_r($caredove_api_data);
+			return $caredove_api_data;
+			
 	}
-
 }

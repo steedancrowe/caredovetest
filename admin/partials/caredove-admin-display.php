@@ -25,5 +25,17 @@
     	  ?>
     </form>
 
-    <?php return Caredove_Admin::connect_to_api(); ?>
+    <?php $caredove_api_data = Caredove_Admin::connect_to_api(); 
+
+    $api_object = json_decode($caredove_api_data, true);
+    
+		foreach ($api_object as $result){
+			if (isset($result['eReferral']['formUrl'])){
+				print $result['id'].'-'.$result['name'].'-'.$result['eReferral']['formUrl'].'<br />';	
+			}
+		}
+
+    ?>
+
+
 </div>

@@ -51,7 +51,9 @@ class Caredove_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
-		add_shortcode('caredove_search', array($this, 'caredove_search'));	
+		add_shortcode('caredove_search', array($this, 'caredove_search_shortcode'));	
+		add_shortcode('caredove_button', array($this, 'caredove_booking_button_shortcode'));	
+		add_shortcode('caredove_listings', array($this, 'caredove_listings_shortcode'));	
 	}
 
 	/**
@@ -112,7 +114,7 @@ class Caredove_Public {
 		<?php	
 	}
 
-	public function caredove_search($atts) {
+	public function caredove_search_shortcode($atts) {
 				$a = shortcode_atts( array(
 						'page_url' => 'https://macrumors.com',
 						'modal' => 'false',
@@ -137,6 +139,63 @@ class Caredove_Public {
 					return ob_get_clean();	
 			 }
 
-		}
+	}
+
+	public function caredove_booking_button_shortcode($atts) {
+			$a = shortcode_atts( array(
+					'page_url' => 'https://macrumors.com',
+					'button_text' => 'Book Now',
+					'button_color' => '',
+					'button_style' => 'default',
+					'modal_title' => 'Book an Appointment'
+			), $atts );
+		
+					ob_start();
+					?> 
+						<button type="button" class="caredove-iframe-button caredove-button-<?php echo $a['button_style'] ?>" data-modal-title="<?php echo $a["modal_title"]?>" href="<?php echo $a["page_url"]?>" style="background-color:<?php echo $a['button_color']?>;"><?php echo $a['button_text']; ?></button>
+					
+					<?php
+					return ob_get_clean();
+
+	}
+
+	public function caredove_listings_shortcode($atts) {
+		$a = shortcode_atts( array(
+				'listing_order' => 'ASC',
+				'columns' => '1',
+				'list_style' => 'full_width',
+				'button_text' => 'Book Now',
+				'button_color' => '',
+				'button_style' => 'default',
+				'modal_title' => 'Book an Appointment'
+		), $atts );
+
+		    $caredove_api_data = Caredove_Admin::connect_to_api(); 
+
+		    $api_object = json_decode($caredove_api_data, true);
+		    	
+				ob_start();
+				?> 
+					<div class="caredove-listings caredove-listings-<?php echo $a['list_style'] ?>">
+						<?php foreach ($api_object as $result){
+							if (isset($result['eReferral']['formUrl'])){
+							?>
+								<div class="caredove-listing-item">
+									<h3><?php echo $result['name'] ?></h3>
+									<p><?php echo $result['details']['description'] ?></p>
+									<br />
+									<button type="button" class="caredove-iframe-button caredove-button-<?php echo $a['button_style']?>" data-modal-title="<?php echo $a['modal_title']?>" href="<?php echo $result['eReferral']['formUrl']?>" style="background-color:<?php echo $a['button_color']?>;">
+										<?php echo html_entity_decode($a["button_text"]); ?>
+									</button>
+
+								</div>
+							<?php
+							}
+						}?>
+					</div>
+				
+				<?php
+				return ob_get_clean();
+	}
 
 }
