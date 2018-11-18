@@ -142,6 +142,7 @@ class Caredove_Admin {
 				}
 			}
 
+			//these are the defaults for button_options we want included whenever there is buttons available
 		  $popup->button_options[] = array(
               'type'=> 'textbox',
               'name'=> 'button_text',
@@ -173,9 +174,9 @@ class Caredove_Admin {
 
 		
 		  
-		  //string is the array of shortocde options for the TinyMCE editor popup
+		  //string is the array of shortcode options for the TinyMCE editor popup
 			$string = array(
-					//first shortcode
+					//first shortcode 'caredove search'
 					'0' => array (
 					'shortcode' => 'caredove_search',
 					'title'=> 'Search Page Settings',
@@ -194,7 +195,7 @@ class Caredove_Admin {
               'name'   => 'modal',
               'label'  => 'Show search in Modal?',
               'text'   => 'Yes',
-              'checked' => false
+              'checked' => true
             ),
             array (
               'type'   => 'textbox',
@@ -205,7 +206,7 @@ class Caredove_Admin {
               'classes' => 'requires_modal'
             ), $popup->button_options[0],$popup->button_options[1],$popup->button_options[2]
           	]
-					),
+					), //seccond shortcode 'caredove button'
 					'1' => array (
 						'shortcode' => 'caredove_button',
 						'title' => 'Create a Booking Form Button',
@@ -228,7 +229,7 @@ class Caredove_Admin {
 	              'tooltip' => 'The title for the popup modal, default: Book an Appointment',
 	            ), $popup->button_options[0],$popup->button_options[1],$popup->button_options[2]
 			    	]
-					),
+					), //third shortcode 'caredove listings'
 					'2' => array ( //do we need Category options? 
 						'shortcode' => 'caredove_listings',
 						'title' => 'Display your caredove listings',
@@ -354,7 +355,7 @@ class Caredove_Admin {
 		}
 	public function caredove_api_password_field() {
 		$api_password = get_option( $this->option_name . '_api_password' );
-		echo '<input type="text" name="' . $this->option_name . '_api_password' . '" id="' . $this->option_name . '_api_password' . '" value="' . $api_password . '"> ' . __( 'get your API password from caredove.com', 'caredove' );
+		echo '<input type="password" name="' . $this->option_name . '_api_password' . '" id="' . $this->option_name . '_api_password' . '" value="' . $api_password . '"> ' . __( 'get your API password from caredove.com', 'caredove' );
 	}
 	public function caredove_api_org_id_field() {
 		$api_org_id = get_option( $this->option_name . '_api_org_id' );
@@ -362,11 +363,12 @@ class Caredove_Admin {
 	}
 
 	public function connect_to_api() {
+
     	$api_username = get_option('caredove_api_username',array());
     	$api_password = get_option('caredove_api_password',array());
     	$api_org_id = get_option('caredove_api_org_id',array());
     	$api_auth = $api_username . ':' . $api_password;
-			$url = 'https://sandbox.caredove.com/api/native/healthcareservice/?organization_id=' . $api_org_id;
+			$url = 'https://sandbox.caredove.com/api/native_v1/Service/?organization_id=' . $api_org_id;
 			$args = array(
 	    'headers' => array(
 	        'Authorization' => 'Basic ' . base64_encode($api_auth)
@@ -380,7 +382,40 @@ class Caredove_Admin {
 				$caredove_api_data = "something went wrong: " . $http_code;
 			}
 
+			set_transient('caredove_listings', $caredove_api_data, 60 * 10);
+			
 			return $caredove_api_data;
 			
+	}
+
+	public function get_listings() {
+			//https://gist.github.com/leocaseiro/455df1f8e1118cb8a2a2
+			$listings = get_transient('caredove_listings');
+		
+			if (!$listings) {
+				
+				return Caredove_Admin::connect_to_api();
+			}
+
+			return $listings;
+	}
+
+	public function get_categories() {
+
+		$listing_categories = array();
+
+		$caredove_api_data = Caredove_Admin::get_listings();
+
+    $api_object = json_decode($caredove_api_data, true);
+    
+		foreach ($api_object as $result){
+			if (isset($result['category']['display'])){
+				if(!in_array($result['category']['display'], $listing_categories, true)){
+        	array_push($listing_categories, $result['category']['display']);
+    		}
+			}
+		}
+
+		return $listing_categories;
 	}
 }

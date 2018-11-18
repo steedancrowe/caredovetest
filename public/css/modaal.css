@@ -110,7 +110,7 @@
 	position: relative;
 	vertical-align: middle;
 	text-align: center;
-	padding: 80px 25px;
+	padding: 40px 25px;
 }
 
 .modaal-fullscreen .modaal-inner-wrapper {
@@ -711,7 +711,7 @@
 @media screen and (max-height: 1000px) {
 
 .modaal-inner-wrapper {
-	padding-top: 60px;
+	padding-top: 20px;
 	padding-bottom: 60px;
 }
 

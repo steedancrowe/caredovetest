@@ -25,7 +25,7 @@
     	  ?>
     </form>
 
-    <?php $caredove_api_data = Caredove_Admin::connect_to_api(); 
+    <?php $caredove_api_data = Caredove_Admin::get_listings(); 
 
     $api_object = json_decode($caredove_api_data, true);
     
@@ -34,6 +34,10 @@
 				print $result['id'].'-'.$result['name'].'-'.$result['eReferral']['formUrl'].'<br />';	
 			}
 		}
+
+		$listing_categories = Caredove_Admin::get_categories();
+
+		print_r($listing_categories);
 
     ?>
 

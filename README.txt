@@ -4,7 +4,7 @@ Donate link: https://caredove.com
 Tags: caredove, integration, api
 Requires at least: 3.0.1
 Tested up to: 4.4
-Stable tag: 0.1.4
+Stable tag: 0.1.6
 Requires PHP: 6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -37,6 +37,13 @@ directory take precedence. For example, `/assets/screenshot-1.png` would win ove
 2. This is the second screen shot
 
 == Changelog ==
+
+= 0.1.6 =
+* added basic API functionality
+* updates to readme.txt
+
+= 0.1.5 =
+* test release tagging in GitHub
 
 = 0.1.4 =
 * added back in ?embed=1 for iFrame urls

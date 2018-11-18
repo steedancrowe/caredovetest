@@ -16,7 +16,7 @@
  * Plugin Name:       Caredove
  * Plugin URI:        https://caredove.com/plugins/caredove
  * Description:       This plugin provides integration with caredove.com for scheduling buttons, services listings and search.Here is a short description of the plugin. 
- * Version:           0.1.4
+ * Version:           0.1.6
  * Author:            Caredove
  * Author URI:        https://caredove.com
  * License:           GPL-2.0+
@@ -35,7 +35,8 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 0.1.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'caredove', '0.1.2' );
+//change-version
+define( 'caredove', '0.1.6' );
 
 /**
  * The code that runs during plugin activation.
@@ -71,9 +72,9 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-caredove.php';
 
 require plugin_dir_path( __FILE__ ) . 'plugin-update-checker/plugin-update-checker.php';
 $CaredoveUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
-	'https://github.com/Caredove/CD-Integrations-Wordpress',
+	'https://github.com/Caredove/CD-Integrations-Wordpress/',
 	__FILE__,
-	'caredove'
+	'CD-Integrations-Wordpress'
 );
 
 //Optional: If you're using a private repository, specify the access token like this:
@@ -81,7 +82,7 @@ $CaredoveUpdateChecker->setAuthentication('30606f94f4d990ae3f2f640d29706b441de63
 
 //Optional: Set the branch that contains the stable release.
 $CaredoveUpdateChecker->setBranch('master');
-
+// $CaredoveUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 /**
  * Begins execution of the plugin.
