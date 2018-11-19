@@ -135,12 +135,16 @@ class Caredove_Admin {
 
 		  $caredove_api_data = $this->connect_to_api();
 		  $api_object = json_decode($caredove_api_data, true);
+		  $caredove_booking_buttons = [];
 			
-			foreach ($api_object as $result){
-				if (isset($result['eReferral']['formUrl'])){
-					$caredove_booking_buttons[] = array('text' => $result['name'], 'value' => $result['eReferral']['formUrl']);
-				}
+			if(isset($api_object)){
+				foreach ($api_object as $result){
+					if (isset($result['eReferral']['formUrl'])){
+						$caredove_booking_buttons[] = array('text' => $result['name'], 'value' => $result['eReferral']['formUrl']);
+					}
+				}	
 			}
+			
 
 			//these are the defaults for button_options we want included whenever there is buttons available
 		  $popup->button_options[] = array(
